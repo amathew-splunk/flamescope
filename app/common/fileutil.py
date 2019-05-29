@@ -85,5 +85,5 @@ def get_profile_type(file_path):
 #            return 'perf'
 #        else:
 #            return 'trace_event'
-    else:
-        return 'unknown'
+#    else:
+#        return 'unknown'
