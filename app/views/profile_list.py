@@ -17,15 +17,19 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
-from flask import Blueprint, jsonify
-
+ 
+from flask import Blueprint, request, jsonify
+ 
 from app.controllers.profile_list import get_profile_list
-
+from app.controllers.profile_create import create_new_profile
+ 
 MOD_PROFILE_LIST = Blueprint(
     'profile', __name__, url_prefix='/profile'
 )
-
-
-@MOD_PROFILE_LIST.route("/", methods=['GET'])
+ 
+@MOD_PROFILE_LIST.route("/", methods=['GET', 'POST'])
 def get_list():
-    return jsonify(get_profile_list())
+    if request.method == 'GET':
+        return jsonify(get_profile_list())
+    else:
+        return jsonify(create_new_profile(5))
