@@ -3,10 +3,10 @@ from app.common.fileutil import get_profile_type
 
 import random
 import subprocess
+import time
 
 # get profile files
 def create_new_profile(capture_duration):
-    f = str(random.getrandbits(128))
-    subprocess.call("./get-stacks.sh " + f + " " + str(capture_duration))
-    open( config.PROFILE_DIR + "/" + f, 'a').close()
+    f = hex(random.getrandbits(64))[2:-1] + "_" + str(time.time())
+    subprocess.call("./get-stacks.sh " + f + " " + str(capture_duration) + " &", shell=True)
     return f 
