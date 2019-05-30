@@ -6,7 +6,4 @@ cd $1
 pid=$(ps aux | grep "\[process-runner\]" | awk '{print $2}')
 
 # record the profiles
-perf_4.9 record -F 49 -p $pid --call-graph dwarf sleep 30s
-
-# save to 
-perf_4.9 script --header > $1/$2
+perf_4.9 record -F 49 -p $pid --call-graph dwarf sleep 30s | perf_4.9 script --header > $1/$2
