@@ -84,6 +84,15 @@ class FileList extends Component {
 
     handleCreateProfileClick() {
         fetch('/profile/', { method: "POST"})
+            .then(() => {
+                fetch('/profile/')
+                    .then(res => {
+                        return res.json()
+                    })
+                    .then(data => {
+                        this.setState({files: data, loading: false})
+                    })
+            })
     }
 
     render() {
@@ -106,38 +115,38 @@ class FileList extends Component {
                         const filename = file.filename
                         const path = encodeURIComponent(filename)
 
-                        if ( file.type == 'running' ) {
+                        const type = file.type == 'unknown' ? 'perf' : file.type
+                        if ( type == 'running' ) {
                             return (
                                 <Table.Row key={filename}>
                                 <Table.Cell>{filename}</Table.Cell>
                                 <Table.Cell textAlign='center'>Running</Table.Cell>
                                 </Table.Row>
                             )
+                        } else {
+                            return (
+                                <Table.Row key={filename}>
+                                    <Table.Cell>{filename}</Table.Cell>
+                                    <Table.Cell textAlign='center'>
+                                    <Button.Group color='teal'>
+                                        <Button onClick={() => {self.handleHeatmapClick(type, path)}}>{type in profileOptions ? profileOptions[type].text : `Open as ${type}`}</Button>
+                                        <Dropdown floating button className='icon'>
+                                            <Dropdown.Menu>
+                                                {Object.keys(profileOptions).map(key => {
+                                                    return (
+                                                        key != type ? <Dropdown.Item key={key} onClick={() => {self.handleHeatmapClick(key, path)}}>{profileOptions[key].text}</Dropdown.Item> : null
+                                                    )
+                                                })}
+                                            </Dropdown.Menu>
+                                        </Dropdown>
+                                    </Button.Group>
+                                    </Table.Cell>
+                                </Table.Row>
+                            )
                         }
-
-                        const type = file.type == 'unknown' ? 'perf' : file.type
-                        return (
-                            <Table.Row key={filename}>
-                                <Table.Cell>{filename}</Table.Cell>
-                                <Table.Cell textAlign='center'>
-                                <Button.Group color='teal'>
-                                    <Button onClick={() => {self.handleHeatmapClick(type, path)}}>{type in profileOptions ? profileOptions[type].text : `Open as ${type}`}</Button>
-                                    <Dropdown floating button className='icon'>
-                                        <Dropdown.Menu>
-                                            {Object.keys(profileOptions).map(key => {
-                                                return (
-                                                    key != type ? <Dropdown.Item key={key} onClick={() => {self.handleHeatmapClick(key, path)}}>{profileOptions[key].text}</Dropdown.Item> : null
-                                                )
-                                            })}
-                                        </Dropdown.Menu>
-                                    </Dropdown>
-                                </Button.Group>
-                                </Table.Cell>
-                            </Table.Row>
-                        )
                     })}
                     <Table.Row textAlign='center'>
-                        <Table.Cell colSpan="2">
+                        <Table.Cell colSpan="2" textAlign='center'>
                             <Button onClick={() => {self.handleCreateProfileClick()}}>New Capture</Button>
                         </Table.Cell>
                     </Table.Row>
