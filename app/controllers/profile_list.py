@@ -39,4 +39,10 @@ def get_profile_list():
                     'type': file_type
                 })
 
+    for entry in all_files:
+        filename = entry['filename']
+        if filename.startswith("dump/")
+            entry['type'] = 'running'
+            entry['filename'] = filename[len('dump/'):]
+
     return all_files

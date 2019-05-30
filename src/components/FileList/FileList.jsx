@@ -104,9 +104,18 @@ class FileList extends Component {
                     <Table.Body>
                     {this.state.files.sort().map(function(file) {
                         const filename = file.filename
-                        const type = file.type == 'unknown' ? 'perf' : file.type
-
                         const path = encodeURIComponent(filename)
+
+                        if ( file.type == 'running' ) {
+                            return (
+                                <Table.Row key={filename}>
+                                <Table.Cell>{filename}</Table.Cell>
+                                <Table.Cell textAlign='center'>Running</Table.Cell>
+                                </Table.Row>
+                            )
+                        }
+
+                        const type = file.type == 'unknown' ? 'perf' : file.type
                         return (
                             <Table.Row key={filename}>
                                 <Table.Cell>{filename}</Table.Cell>
