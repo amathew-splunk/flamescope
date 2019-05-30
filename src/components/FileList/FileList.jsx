@@ -82,6 +82,10 @@ class FileList extends Component {
         this.props.history.push(url)
     }
 
+    handleCreateProfileClick() {
+        fetch('/profile/', { method: "POST"})
+    }
+
     render() {
         const self = this
         
@@ -123,6 +127,11 @@ class FileList extends Component {
                             </Table.Row>
                         )
                     })}
+                    <Table.Row textAlign='center'>
+                        <Table.Cell colSpan="2">
+                            <Button onClick={() => {self.handleCreateProfileClick()}}>New Capture</Button>
+                        </Table.Cell>
+                    </Table.Row>
                     </Table.Body>
                 </Table>
                 <Divider hidden clearing />
