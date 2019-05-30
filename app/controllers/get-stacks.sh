@@ -1,4 +1,6 @@
+# Make sure profile directory exists and change to it
 mkdir -p $1
+cd $1
 
 # get the pid of the process runner
 pid=$(ps aux | grep "\[process-runner\]" | awk '{print $2}')
