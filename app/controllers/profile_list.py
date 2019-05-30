@@ -34,15 +34,14 @@ def get_profile_list():
                 filename = join(start, f)
                 file_path = join(config.PROFILE_DIR, filename)
                 file_type = get_profile_type(file_path)
+
+                if filename.startswith('dump/'):
+                    file_type = 'running'
+                    filename = filename[len('dump/'):]
+
                 all_files.append({
                     'filename': filename,
                     'type': file_type
                 })
-
-    for entry in all_files:
-        filename = entry['filename']
-        if filename.startswith("dump/")
-            entry['type'] = 'running'
-            entry['filename'] = filename[len('dump/'):]
 
     return all_files
