@@ -7,7 +7,10 @@ cd $1
 touch $1/dump/$2
 
 # get the pid of the process runner
-pid=$(ps aux | grep "\[process-runner\]" | awk '{print $2}')
+# pid=$(ps aux | grep "\[process-runner\]" | awk '{print $2}')
+
+# get the pid of splunkd
+pid=$(ps aux | grep 17089 | grep -v "process-runner" | grep -v "grep"  | awk '{print $2}')
 
 # record the profiles
 perf_4.9 record -F 99 -p $pid --call-graph dwarf -o $1/dump/$2 sleep 300s
